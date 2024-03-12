@@ -42,18 +42,17 @@ const opcionesEstudiantes= async ()=>{
     const contenedor2 = document.getElementById('Contenedor');
     contenedor2.innerHTML = `
       <section>
-          <button class="botonsEstudiantes" id="botoncrearCiudadano"type="button" onclick="()">Crear Ciudadano</button>
-          <button class="botonsEstudiantes" id="botonmodificarCiudadano" type="button" onclick="()">Modificar Ciudadano</button>
+          <button class="botonsEstudiantes" id="botoncrearCiudadano"type="button" onclick="formularioCiudadano()">Crear Ciudadano</button>
           <button class="botonsEstudiantes" id="botonmostrarListado" type="button" onclick="()">Ver Listado de Ciudadano</button>
           <button id="atras1" class="atras" onclick="">atras</button>
       </section>`;
 }
-const formularioCrearEstudiante = async () => {
+const formularioCiudadano = async () => {
     const boton1 = document.getElementById('botoncrearCiudadano');
     const boton2 = document.getElementById('botonmodificarCiudadano');
     const boton3 = document.getElementById('botonmostrarListado');
     const boton = document.getElementById('atras1')
-    const contenedorEstudiantes = document.getElementById('crearEstudiante');
+    const contenedorEstudiantes = document.getElementById('Contenedor');
     contenedorEstudiantes.innerHTML = `
       <form id="MenuCrearCiudadano">
         <h3>Menu Crear Ciudadano</h3>
@@ -164,7 +163,7 @@ const SeccionAdn=()=>{
     <section id="comprobacion">
     <div id="input">
     <label for="input-adn">Ingrese el numero de serie del ADD</label>
-    <input type="number" id="input-adn">
+    <input type="text" id="input-adn">
     </div>
     <div id="resultado">resultado: ?</div>
     <button onclick="buscar()">buscar   x</button>
@@ -187,12 +186,55 @@ const inicio=()=>{
     <section id="inicio">
 
                 <aside id="right">
-                    <button id="" onclick="" >Emergencia</button>
-                    <button id="" onclick="" >Investigacion Criminal</button>
+                    <button id="" onclick="Emergencia()" >Emergencia</button>
+                    <button id="" onclick="SeccionAdn()" >Investigacion Criminal</button>
                 </aside>
                 
             </section>
     
     `
 }
-{}
+function Emergencia(){
+    const contenedor=document.getElementById('Contenedor')
+    contenedor.innerHTML=`
+    <section id="emergencia">
+
+    <h1>Llamar a Una patrulla</h1>
+    <button id="" onclick="inicio()" >Atras</button>
+                
+            </section>
+    
+    `
+}
+
+const  mostrarListadoCiudadno=async()=>{
+    await loadCiudadanos();
+    const boton1 = document.getElementById('botoncrearCiudadano');
+    const boton2 = document.getElementById('botonmodificarCiudadano');
+    const boton3 = document.getElementById('botonmostrarListado');
+    const boton = document.getElementById('atras1')
+    const listadoCiudadanos = document.getElementById('Contenedor');
+    atrbotonas.style.display = 'none';
+    boton1.style.display = 'none';
+    boton2.style.display = 'none';
+    boton3.style.display = 'none';
+    listadoCiudadanos.style.display='flex';
+    
+    const ul = document.createElement("ul");
+    
+
+    for(const Estudiante of listaEstudiantes){
+        const li=document.createElement('li');
+        li.textContent= `nombre: ${Estudiante.nombre}, apellido: ${Estudiante.apellido}, tipo_documento: ${Estudiante.tipo_documento}, numero_documento: ${Estudiante.numero_documento}
+        , ciudad_residencia: ${Estudiante.ciudad_residencia}, direccion: ${Estudiante.direccion}, telefono: ${Estudiante.telefono}, fecha_nacimiento: ${Estudiante.fecha_nacimiento}, sexo: ${Estudiante.numero_documento}
+        , programa_id: ${Estudiante.programa_id}`;
+        ul.appendChild(li);
+    }
+    listadoCiudadanos.innerHTML='';
+    listadoCiudadanos.appendChild(ul);
+
+    const volverButton=document.createElement('button');
+    volverButton.textContent='Volver al Formulario';
+    volverButton.addEventListener('click',opcionesEstudiantes);
+    listadoCiudadanos.appendChild(volverButton);
+}
