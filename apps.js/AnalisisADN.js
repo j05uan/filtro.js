@@ -3,7 +3,7 @@ const listaCiudadanos = [];
 const loadCiudadanos = async () => {
     try {
         listaCiudadanos.length = 0;
-        const respuesta = await fetch('http://localhost:300/ciudadanos');
+        const respuesta = await fetch('http://localhost:3000/ciudadanos');
 
         if (!respuesta.ok) {
             throw new Error('Error al cargar Ciudadanos. Estado: ' + respuesta.status);
@@ -18,7 +18,7 @@ const loadCiudadanos = async () => {
 
 const guardarCiudadano = async (nuevoCiudadano) => {
     try {
-        const respuesta = await fetch('http://localhost:300/ciudadanos', {
+        const respuesta = await fetch('http://localhost:3000/ciudadanos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,13 +43,12 @@ const opcionesEstudiantes= async ()=>{
     contenedor2.innerHTML = `
       <section>
           <button class="botonsEstudiantes" id="botoncrearCiudadano"type="button" onclick="formularioCiudadano()">Crear Ciudadano</button>
-          <button class="botonsEstudiantes" id="botonmostrarListado" type="button" onclick="()">Ver Listado de Ciudadano</button>
+          <button class="botonsEstudiantes" id="botonmostrarListado" type="button" onclick="mostrarListadoCiudadno()">Ver Listado de Ciudadano</button>
           <button id="atras1" class="atras" onclick="">atras</button>
       </section>`;
 }
 const formularioCiudadano = async () => {
     const boton1 = document.getElementById('botoncrearCiudadano');
-    const boton2 = document.getElementById('botonmodificarCiudadano');
     const boton3 = document.getElementById('botonmostrarListado');
     const boton = document.getElementById('atras1')
     const contenedorEstudiantes = document.getElementById('Contenedor');
@@ -70,7 +69,6 @@ const formularioCiudadano = async () => {
   `;
     boton.style.display = 'none';
     boton1.style.display = 'none';
-    boton2.style.display = 'none';
     boton3.style.display = 'none';
 }
 const crearCiudadano = async () => {
@@ -80,25 +78,25 @@ const crearCiudadano = async () => {
     const celularInput = document.getElementById('celular');
     const codigo_adnInput = document.getElementById('codigo_adn');
 
-    let section=false
+    let section=true
     for (ciudadano of listaCiudadanos) {
         if(ciudadano.codigo_adn!==codigo_adnInput){
-            section=true
+            section=false
             alert('La Secuencia de ADN ya esta en el sistema')
     }
     }
     if(section!==false){
         const nombre = nombreInput.value;
-    const direccion = direccionInput.value;
-    const celular = celularInput.value;
-    const codigo_adn = codigo_adnInput.value;
+        const direccion = direccionInput.value;
+        const celular = celularInput.value;
+        const codigo_adn = codigo_adnInput.value;
 
-    const nuevoCiudadano = {
-        nombre_completo:nombre ,
-        direccion:direccion ,
-        celular: celular,
-        codigo_adn: codigo_adn,
-    };
+        const nuevoCiudadano = {
+            nombre_completo:nombre ,
+            direccion:direccion ,
+            celular: celular,
+            codigo_adn: codigo_adn,
+        };
 
     await guardarCiudadano(nuevoCiudadano);
     await loadCiudadanos();
@@ -210,24 +208,21 @@ function Emergencia(){
 const  mostrarListadoCiudadno=async()=>{
     await loadCiudadanos();
     const boton1 = document.getElementById('botoncrearCiudadano');
-    const boton2 = document.getElementById('botonmodificarCiudadano');
     const boton3 = document.getElementById('botonmostrarListado');
     const boton = document.getElementById('atras1')
     const listadoCiudadanos = document.getElementById('Contenedor');
-    atrbotonas.style.display = 'none';
+    boton.style.display = 'none';
     boton1.style.display = 'none';
-    boton2.style.display = 'none';
     boton3.style.display = 'none';
     listadoCiudadanos.style.display='flex';
     
     const ul = document.createElement("ul");
     
 
-    for(const Estudiante of listaEstudiantes){
+    for(const ciudadano of listaCiudadanos){
         const li=document.createElement('li');
-        li.textContent= `nombre: ${Estudiante.nombre}, apellido: ${Estudiante.apellido}, tipo_documento: ${Estudiante.tipo_documento}, numero_documento: ${Estudiante.numero_documento}
-        , ciudad_residencia: ${Estudiante.ciudad_residencia}, direccion: ${Estudiante.direccion}, telefono: ${Estudiante.telefono}, fecha_nacimiento: ${Estudiante.fecha_nacimiento}, sexo: ${Estudiante.numero_documento}
-        , programa_id: ${Estudiante.programa_id}`;
+        li.textContent= `nombre_completo: ${ciudadano.nombre_completo}, apellido: ${ciudadano.direccion},
+         celular: ${ciudadano.celular}, codigo_adn: ${ciudadano.codigo_adn}`;
         ul.appendChild(li);
     }
     listadoCiudadanos.innerHTML='';
