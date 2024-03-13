@@ -44,7 +44,7 @@ const opcionesEstudiantes= async ()=>{
       <section>
           <button class="botonsEstudiantes" id="botoncrearCiudadano"type="button" onclick="formularioCiudadano()">Crear Ciudadano</button>
           <button class="botonsEstudiantes" id="botonmostrarListado" type="button" onclick="mostrarListadoCiudadno()">Ver Listado de Ciudadano</button>
-          <button id="atras1" class="atras" onclick="">atras</button>
+          <button id="atras1" class="atras" onclick="opcionesEstudiantes()">atras</button>
       </section>`;
 }
 const formularioCiudadano = async () => {
@@ -63,7 +63,7 @@ const formularioCiudadano = async () => {
         <input type="number" id="celular" required>
         <label for="codigo_adn">Número de Secuencia ADN:</label>
         <input type="text" id="codigo_adn" required>
-        <button type="button" onclick="crearCiudadano()">Crear Estudiante</button>
+        <button type="button" onclick="crearCiudadano()">Crear Ciudadabno</button>
         <button id="atras2" class="atras" onclick="opcionesEstudiantes()">Atrás</button>
       </form>
   `;
@@ -72,46 +72,49 @@ const formularioCiudadano = async () => {
     boton3.style.display = 'none';
 }
 const crearCiudadano = async () => {
+    await loadCiudadanos(); // Suponiendo que esta es una función asíncrona
 
     const nombreInput = document.getElementById('nombre_completo');
     const direccionInput = document.getElementById('direccion');
     const celularInput = document.getElementById('celular');
     const codigo_adnInput = document.getElementById('codigo_adn');
 
-    let section=true
-    for (ciudadano of listaCiudadanos) {
-        if(ciudadano.codigo_adn!==codigo_adnInput){
-            section=false
-            alert('La Secuencia de ADN ya esta en el sistema')
+    let section = true;
+    for (let ciudadano of listaCiudadanos) {
+        if (ciudadano.codigo_adn === codigo_adnInput.value) {
+            section = false;
+            alert('La Secuencia de ADN ya está en el sistema');
+            break; // Salir del bucle una vez que se encuentre un ADN coincidente
+        }
     }
-    }
-    if(section!==false){
+
+    if (section) {
         const nombre = nombreInput.value;
         const direccion = direccionInput.value;
         const celular = celularInput.value;
         const codigo_adn = codigo_adnInput.value;
 
         const nuevoCiudadano = {
-            nombre_completo:nombre ,
-            direccion:direccion ,
+            nombre_completo: nombre,
+            direccion: direccion,
             celular: celular,
             codigo_adn: codigo_adn,
         };
 
-    await guardarCiudadano(nuevoCiudadano);
-    await loadCiudadanos();
+        await guardarCiudadano(nuevoCiudadano);
+        await loadCiudadanos();
 
-    nombreInput.value = '';
-    direccionInput.value = '';
-    celularInput.value = '';
-    codigo_adnInput.value = '';
+        nombreInput.value = '';
+        direccionInput.value = '';
+        celularInput.value = '';
+        codigo_adnInput.value = '';
 
-    alert('Ciudadano creado con éxito!');
+        alert('¡Ciudadano creado con éxito!');
 
-    return nuevoCiudadano;
+        return nuevoCiudadano;
     }
-   
 }
+
 async function buscar() {
     await loadCiudadanos();
     const entradaADN = document.getElementById("input-adn").value;

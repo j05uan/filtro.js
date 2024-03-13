@@ -4,6 +4,8 @@
     text-decoration: none;
     background-color: black;
     color: aliceblue;
+    list-style-type: none;
+
 }
 #Contenedor{
     width: 80%;
@@ -49,4 +51,31 @@ input{
     justify-content: space-between;
     width: 700px;
     height: 900px;
+} 
+#Header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4em;
+    margin-top: 2em;
+
+} 
+#navs{
+    text-decoration: none;
+    display: flex;
+    list-style-type: none;
+}
+ul{
+    display: flex;
+    justify-content: space-between;
+    gap: 20rem;
+}
+button{
+    padding: 1em;
+}
+button:hover{
+    cursor: pointer;
+    
+}
+h1{
+    background: transparent;
 }
